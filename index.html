@@ -3,48 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>دعوة عقد قران | وليد & رحمة</title>
+<title>عقد قراني | وليد & رحمة</title>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  body { margin: 0; background: #f5ead6; font-family: 'Amiri', serif; }
+  body { margin: 0; background: #1a1005; font-family: 'Amiri', serif; overflow-x: hidden; }
   
-  /* ══ 1. شاشة الظرف ══ */
-  #envelopeScreen { position: fixed; inset: 0; z-index: 9999; background: #1a1005; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #f0d878; cursor: pointer; transition: opacity 0.5s; }
-  #envelope { font-size: 80px; transition: transform 0.3s; }
+  /* ══ شاشة الظرف ══ */
+  #envelopeScreen { position: fixed; inset: 0; z-index: 9999; background: #1a1005; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #f0d878; cursor: pointer; transition: opacity 0.8s; }
+  #envelope { font-size: 80px; transition: transform 0.5s; }
 
-  /* ══ 2. شاشة العد التنازلي ══ */
-  #countdownScreen { position: fixed; inset: 0; z-index: 9998; background: #1a1005; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.5s; }
+  /* ══ شاشة العد التنازلي ══ */
+  #countdownScreen { position: fixed; inset: 0; z-index: 9998; background: #1a1005; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.8s; }
   .title-text { color: #f0d878; font-size: 2rem; margin-bottom: 20px; }
-  .count-num { font-size: 4rem; color: #d4af5a; }
+  .count-num { font-size: 5rem; color: #d4af5a; }
 
-  /* ══ 3. الدعوة الرئيسية ══ */
-  #mainContent { opacity: 0; transition: opacity 1s; padding: 20px; text-align: center; }
-  .card { background: #f5ead6; max-width: 480px; margin: auto; padding: 20px; border: 2px solid #b8892a; }
+  /* ══ الدعوة الرئيسية ══ */
+  #mainContent { opacity: 0; transition: opacity 1.5s; padding: 20px; text-align: center; display: none; }
+  .card { background: #f5ead6; max-width: 480px; margin: auto; padding: 40px; border: 2px solid #b8892a; }
   
-  /* زر الموسيقى */
-  #musicBtn { position: fixed; bottom: 20px; right: 20px; z-index: 1000; padding: 10px; border-radius: 50%; border: 1px solid #b8892a; background: #fff; cursor: pointer; }
+  #musicBtn { position: fixed; bottom: 20px; right: 20px; z-index: 1000; width: 50px; height: 50px; border-radius: 50%; border: 1px solid #b8892a; background: #fff; cursor: pointer; font-size: 20px; }
 </style>
 </head>
 <body>
 
-<!-- شاشة 1: الظرف -->
+<!-- 1. شاشة الظرف -->
 <div id="envelopeScreen">
   <div id="envelope">✉️</div>
-  <p>اضغط لفتح الظرف</p>
+  <p style="margin-top:20px;">اضغط لفتح الدعوة</p>
 </div>
 
-<!-- شاشة 2: العد التنازلي -->
+<!-- 2. شاشة العد التنازلي -->
 <div id="countdownScreen">
   <h1 class="title-text">عقد قران وليد & رحمة</h1>
-  <div class="count-num" id="cNum">2</div>
+  <div class="count-num" id="cNum">3</div>
 </div>
 
-<!-- شاشة 3: الدعوة الرئيسية -->
+<!-- 3. الدعوة الرئيسية -->
 <div id="mainContent">
   <div class="card">
-    <h1>بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</h1>
+    <h1 style="color: #b8892a;">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</h1>
     <p>تتشرف بدعوتكم لحضور عقد قراننا</p>
-    <div style="font-size: 3rem; color: #b8892a;">وليد & رحمة</div>
+    <div style="font-size: 3.5rem; color: #b8892a; margin: 20px 0;">وليد & رحمة</div>
+    <p>30 / 6 / 2026</p>
   </div>
 </div>
 
@@ -58,10 +58,9 @@
   const cNum = document.getElementById('cNum');
   const music = document.getElementById('bgMusic');
 
-  // التفاعل: فتح الظرف وتشغيل الموسيقى فوراً
   envScr.addEventListener('click', () => {
-    // تشغيل الموسيقى مباشرة عند الضغط
-    music.play().catch(e => console.log("المتصفح يمنع التشغيل التلقائي"));
+    // تشغيل الموسيقى تلقائياً عند فتح الظرف
+    music.play().catch(e => console.log("تحتاج تفاعل"));
     
     envScr.style.opacity = '0';
     setTimeout(() => {
@@ -69,12 +68,11 @@
       countScr.style.opacity = '1';
       countScr.style.pointerEvents = 'all';
       startCountdown();
-    }, 500);
+    }, 800);
   }, { once: true });
 
-  // العد التنازلي (2 ثم 1)
   function startCountdown() {
-    let n = 2;
+    let n = 3;
     let timer = setInterval(() => {
       n--;
       if (n > 0) {
@@ -84,13 +82,13 @@
         countScr.style.opacity = '0';
         setTimeout(() => {
           countScr.style.display = 'none';
+          main.style.display = 'block';
           main.style.opacity = '1';
-        }, 500);
+        }, 800);
       }
     }, 1000);
   }
 
-  // التحكم في زر الموسيقى
   document.getElementById('musicBtn').onclick = () => {
     music.paused ? music.play() : music.pause();
   };
