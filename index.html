@@ -2,51 +2,46 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>دعوة عقد قران | وليد & رحمة</title>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  body { margin: 0; padding: 0; background-color: #f5ead6; font-family: 'Amiri', serif; overflow: hidden; }
+  body { margin: 0; background: #f5ead6; font-family: 'Amiri', serif; }
   
-  /* ══ التصميم البرمجي (الستائر والثريا) ══ */
-  .hero-wrap { position: relative; width: 100vw; height: 100vh; background: linear-gradient(to bottom, #e8d4b0, #f5ead6); display: flex; align-items: center; justify-content: center; }
+  /* ══ 1. الظرف ══ */
+  #envelopeScreen { position: fixed; inset: 0; z-index: 9999; background: #1a1005; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #f0d878; cursor: pointer; transition: opacity 0.5s; }
+  #envelope { font-size: 80px; transition: transform 0.3s; }
+
+  /* ══ 2. العد التنازلي ══ */
+  #countdownScreen { position: fixed; inset: 0; z-index: 9998; background: #1a1005; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.5s; }
+  .title-text { color: #f0d878; font-size: 2rem; margin-bottom: 20px; }
+  .count-num { font-size: 4rem; color: #d4af5a; }
+
+  /* ══ 3. الدعوة الرئيسية ══ */
+  #mainContent { opacity: 0; transition: opacity 1s; padding: 20px; text-align: center; }
+  .card { background: #f5ead6; max-width: 480px; margin: auto; padding: 20px; border: 2px solid #b8892a; }
   
-  /* ══ شاشة الظرف التفاعلية ══ */
-  #intro { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.85); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity .9s; }
-  #intro.hide { opacity: 0; pointer-events: none; }
-  .intro-inner { text-align: center; color: #f0d878; cursor: pointer; }
-  #envelope { font-size: 80px; transition: transform 0.5s; }
-  
-  /* ══ قصاصات الورق ══ */
-  .confetti { position: absolute; width: 10px; height: 10px; z-index: 9998; border-radius: 50%; }
-  
-  /* ══ زر الموسيقى ══ */
-  @keyframes pulse {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(184, 137, 42, 0.7); }
-    70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(184, 137, 42, 0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(184, 137, 42, 0); }
-  }
-  #musicBtn {
-    position: fixed; bottom: 20px; right: 20px; z-index: 10000;
-    width: 45px; height: 45px; border-radius: 50%;
-    border: 1px solid #b8892a; background: rgba(255, 255, 255, 0.9);
-    color: #b8892a; cursor: pointer; font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3); transition: all 0.3s;
-    animation: pulse 2s infinite;
-  }
+  #musicBtn { position: fixed; bottom: 20px; right: 20px; z-index: 1000; padding: 10px; border-radius: 50%; border: 1px solid #b8892a; background: #fff; cursor: pointer; }
 </style>
 </head>
 <body>
 
-<div class="hero-wrap">
-  <h1 style="color: #b8892a;">دعوة عقد قران وليد & رحمة</h1>
+<!-- شاشة 1: الظرف -->
+<div id="envelopeScreen">
+  <div id="envelope">✉️</div>
+  <p>اضغط لفتح الظرف</p>
 </div>
 
-<div id="intro">
-  <div class="intro-inner" id="envelopeContainer">
-    <div id="envelope">✉️</div>
-    <p style="margin-top: 20px; font-size: 1.5rem;">اضغط لفتح الدعوة</p>
+<!-- شاشة 2: العد التنازلي -->
+<div id="countdownScreen">
+  <h1 class="title-text">عقد قران وليد & رحمة</h1>
+  <div class="count-num" id="cNum">2</div>
+</div>
+
+<!-- شاشة 3: الدعوة الرئيسية -->
+<div id="mainContent">
+  <div class="card">
+    <h1>بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</h1>
+    <p>تتشرف بدعوتكم لحضور عقد قراننا</p>
+    <div style="font-size: 3rem; color: #b8892a;">وليد & رحمة</div>
   </div>
 </div>
 
@@ -54,38 +49,45 @@
 <button id="musicBtn">🎵</button>
 
 <script>
-  const intro = document.getElementById('intro');
-  const envelope = document.getElementById('envelope');
+  const envScr = document.getElementById('envelopeScreen');
+  const countScr = document.getElementById('countdownScreen');
+  const main = document.getElementById('mainContent');
+  const cNum = document.getElementById('cNum');
   const music = document.getElementById('bgMusic');
-  const musicBtn = document.getElementById('musicBtn');
 
-  function createConfetti() {
-    for (let i = 0; i < 50; i++) {
-      const c = document.createElement('div');
-      c.className = 'confetti';
-      c.style.left = Math.random() * 100 + 'vw';
-      c.style.backgroundColor = ['#f0d878', '#d4af5a', '#ffffff'][Math.floor(Math.random()*3)];
-      c.style.top = '-10px';
-      document.body.appendChild(c);
-      const animation = c.animate([{ transform: 'translateY(0) rotate(0deg)' }, { transform: `translateY(100vh) rotate(${Math.random()*720}deg)` }], { duration: 2000 + Math.random() * 2000, easing: 'linear' });
-      animation.onfinish = () => c.remove();
-    }
-  }
-
-  intro.addEventListener('click', () => {
-    envelope.style.transform = "scale(1.2) translateY(-20px)";
-    envelope.textContent = "📂";
-    createConfetti();
+  // فتح الظرف
+  envScr.addEventListener('click', () => {
+    envScr.style.opacity = '0';
     setTimeout(() => {
-        intro.classList.add('hide');
-        music.play().catch(e => console.log("تحتاج تفاعل"));
-    }, 600);
+      envScr.style.display = 'none';
+      countScr.style.opacity = '1';
+      countScr.style.pointerEvents = 'all';
+      startCountdown();
+    }, 500);
   }, { once: true });
 
-  musicBtn.addEventListener('click', () => {
-    if (music.paused) { music.play(); musicBtn.textContent = '🔊'; }
-    else { music.pause(); musicBtn.textContent = '🔇'; }
-  });
+  // العد التنازلي (يبدأ من 2 وينتهي بـ 1)
+  function startCountdown() {
+    let n = 2; // البدء من 2
+    let timer = setInterval(() => {
+      n--;
+      if (n > 0) {
+        cNum.textContent = n;
+      } else {
+        clearInterval(timer);
+        countScr.style.opacity = '0';
+        setTimeout(() => {
+          countScr.style.display = 'none';
+          main.style.opacity = '1';
+          music.play().catch(e => console.log("تحتاج تفاعل"));
+        }, 500);
+      }
+    }, 1000);
+  }
+
+  document.getElementById('musicBtn').onclick = () => {
+    music.paused ? music.play() : music.pause();
+  };
 </script>
 
 </body>
