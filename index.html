@@ -2,15 +2,17 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>دعوة عقد قران | وليد & رحمة</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
   body { margin: 0; background: #f5ead6; font-family: 'Amiri', serif; }
   
-  /* ══ 1. الظرف ══ */
+  /* ══ 1. شاشة الظرف ══ */
   #envelopeScreen { position: fixed; inset: 0; z-index: 9999; background: #1a1005; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #f0d878; cursor: pointer; transition: opacity 0.5s; }
   #envelope { font-size: 80px; transition: transform 0.3s; }
 
-  /* ══ 2. العد التنازلي ══ */
+  /* ══ 2. شاشة العد التنازلي ══ */
   #countdownScreen { position: fixed; inset: 0; z-index: 9998; background: #1a1005; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.5s; }
   .title-text { color: #f0d878; font-size: 2rem; margin-bottom: 20px; }
   .count-num { font-size: 4rem; color: #d4af5a; }
@@ -19,6 +21,7 @@
   #mainContent { opacity: 0; transition: opacity 1s; padding: 20px; text-align: center; }
   .card { background: #f5ead6; max-width: 480px; margin: auto; padding: 20px; border: 2px solid #b8892a; }
   
+  /* زر الموسيقى */
   #musicBtn { position: fixed; bottom: 20px; right: 20px; z-index: 1000; padding: 10px; border-radius: 50%; border: 1px solid #b8892a; background: #fff; cursor: pointer; }
 </style>
 </head>
@@ -55,8 +58,11 @@
   const cNum = document.getElementById('cNum');
   const music = document.getElementById('bgMusic');
 
-  // فتح الظرف
+  // التفاعل: فتح الظرف وتشغيل الموسيقى فوراً
   envScr.addEventListener('click', () => {
+    // تشغيل الموسيقى مباشرة عند الضغط
+    music.play().catch(e => console.log("المتصفح يمنع التشغيل التلقائي"));
+    
     envScr.style.opacity = '0';
     setTimeout(() => {
       envScr.style.display = 'none';
@@ -66,9 +72,9 @@
     }, 500);
   }, { once: true });
 
-  // العد التنازلي (يبدأ من 2 وينتهي بـ 1)
+  // العد التنازلي (2 ثم 1)
   function startCountdown() {
-    let n = 2; // البدء من 2
+    let n = 2;
     let timer = setInterval(() => {
       n--;
       if (n > 0) {
@@ -79,12 +85,12 @@
         setTimeout(() => {
           countScr.style.display = 'none';
           main.style.opacity = '1';
-          music.play().catch(e => console.log("تحتاج تفاعل"));
         }, 500);
       }
     }, 1000);
   }
 
+  // التحكم في زر الموسيقى
   document.getElementById('musicBtn').onclick = () => {
     music.paused ? music.play() : music.pause();
   };
