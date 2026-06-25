@@ -3,48 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>عقد قراني | وليد & رحمة</title>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<title>دعوة عقد قران | وليد & رحمة</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New&display=swap" rel="stylesheet">
 <style>
+  /* استدعاء تنسيقات الملفين معاً */
   body { margin: 0; background: #1a1005; font-family: 'Amiri', serif; overflow-x: hidden; }
   
-  /* ══ شاشة الظرف ══ */
+  /* ══ 1. شاشة الظرف ══ */
   #envelopeScreen { position: fixed; inset: 0; z-index: 9999; background: #1a1005; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #f0d878; cursor: pointer; transition: opacity 0.8s; }
   #envelope { font-size: 80px; transition: transform 0.5s; }
 
-  /* ══ شاشة العد التنازلي ══ */
+  /* ══ 2. شاشة العد التنازلي (2 إلى 1) ══ */
   #countdownScreen { position: fixed; inset: 0; z-index: 9998; background: #1a1005; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.8s; }
-  .title-text { color: #f0d878; font-size: 2rem; margin-bottom: 20px; }
   .count-num { font-size: 5rem; color: #d4af5a; }
 
-  /* ══ الدعوة الرئيسية ══ */
-  #mainContent { opacity: 0; transition: opacity 1.5s; padding: 20px; text-align: center; display: none; }
-  .card { background: #f5ead6; max-width: 480px; margin: auto; padding: 40px; border: 2px solid #b8892a; }
+  /* ══ 3. الدعوة الرئيسية ══ */
+  #mainContent { opacity: 0; transition: opacity 1.5s; display: none; }
   
-  #musicBtn { position: fixed; bottom: 20px; right: 20px; z-index: 1000; width: 50px; height: 50px; border-radius: 50%; border: 1px solid #b8892a; background: #fff; cursor: pointer; font-size: 20px; }
+  /* زر الموسيقى العائم */
+  #musicBtn { position: fixed; bottom: 20px; right: 20px; z-index: 1000; width: 50px; height: 50px; border-radius: 50%; border: 1px solid #b8892a; background: #fff; cursor: pointer; font-size: 20px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+  
+  /* تضمين تنسيقات البطاقة (Card) والزينة من الملف السابق */
+  .outer { width: 100%; min-height: 100dvh; display: flex; justify-content: center; }
+  .card { position: relative; width: 100%; max-width: 480px; background: #f5ead6; overflow: hidden; padding: 20px; }
+  .content { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .names { font-family: 'Scheherazade New', serif; font-size: 3rem; color: #b8892a; margin: 20px 0; }
+  .map-btn { padding: 15px; background: #b8892a; color: #fff; text-decoration: none; border-radius: 10px; }
 </style>
 </head>
 <body>
 
-<!-- 1. شاشة الظرف -->
+<!-- شاشة 1: الظرف -->
 <div id="envelopeScreen">
   <div id="envelope">✉️</div>
-  <p style="margin-top:20px;">اضغط لفتح الدعوة</p>
+  <p>اضغط لفتح الدعوة</p>
 </div>
 
-<!-- 2. شاشة العد التنازلي -->
+<!-- شاشة 2: العد التنازلي -->
 <div id="countdownScreen">
-  <h1 class="title-text">عقد قران وليد & رحمة</h1>
-  <div class="count-num" id="cNum">3</div>
+  <h1 style="color:#f0d878">عقد قران وليد & رحمة</h1>
+  <div class="count-num" id="cNum">2</div>
 </div>
 
-<!-- 3. الدعوة الرئيسية -->
+<!-- شاشة 3: الدعوة الرئيسية -->
 <div id="mainContent">
-  <div class="card">
-    <h1 style="color: #b8892a;">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</h1>
-    <p>تتشرف بدعوتكم لحضور عقد قراننا</p>
-    <div style="font-size: 3.5rem; color: #b8892a; margin: 20px 0;">وليد & رحمة</div>
-    <p>30 / 6 / 2026</p>
+  <div class="outer">
+    <div class="card">
+        <div class="content">
+            <h1 style="color: #b8892a;">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</h1>
+            <div class="names">وليد & رحمة</div>
+            <p>التاريخ: 30 يونيو 2026</p>
+            <p>المكان: قاعة لامور - نادي الإنتاج الحربي</p>
+            <br>
+            <a class="map-btn" href="https://maps.app.goo.gl/nYvg4d4uEySctgK88" target="_blank">📍 عرض الموقع على الخريطة</a>
+        </div>
+    </div>
   </div>
 </div>
 
@@ -58,10 +72,9 @@
   const cNum = document.getElementById('cNum');
   const music = document.getElementById('bgMusic');
 
+  // التفاعل: فتح الظرف وتشغيل الصوت تلقائياً
   envScr.addEventListener('click', () => {
-    // تشغيل الموسيقى تلقائياً عند فتح الظرف
-    music.play().catch(e => console.log("تحتاج تفاعل"));
-    
+    music.play().catch(e => console.log("المتصفح يمنع التشغيل التلقائي"));
     envScr.style.opacity = '0';
     setTimeout(() => {
       envScr.style.display = 'none';
@@ -71,8 +84,9 @@
     }, 800);
   }, { once: true });
 
+  // العد التنازلي (2 إلى 1)
   function startCountdown() {
-    let n = 3;
+    let n = 2;
     let timer = setInterval(() => {
       n--;
       if (n > 0) {
@@ -93,6 +107,5 @@
     music.paused ? music.play() : music.pause();
   };
 </script>
-
 </body>
 </html>
