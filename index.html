@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>دعوة عقد قران | وليد & رحمة</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  body { 
+    margin: 0; padding: 0; 
+    background-image: url('1000572275.jpg'); 
+    background-size: cover; 
+    background-position: center; 
+    background-attachment: fixed; 
+    background-repeat: no-repeat; 
+    font-family: 'Amiri', serif;
+    animation: shimmer 4s infinite ease-in-out;
+  }
+  @keyframes shimmer {
+    0% { filter: brightness(100%) contrast(100%); }
+    50% { filter: brightness(110%) contrast(102%); }
+    100% { filter: brightness(100%) contrast(100%); }
+  }
+  
+  /* ══ شاشة الظرف التفاعلية ══ */
+  #intro { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.85); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity .9s; }
+  #intro.hide { opacity: 0; pointer-events: none; }
+  .intro-inner { text-align: center; color: #f0d878; cursor: pointer; }
+  #envelope { font-size: 80px; transition: transform 0.5s; }
+  
+  /* ══ قصاصات الورق ══ */
+  .confetti { position: absolute; width: 10px; height: 10px; z-index: 9998; border-radius: 50%; }
+  
+  /* ══ زر الموسيقى ══ */
+  @keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(184, 137, 42, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(184, 137, 42, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(184, 137, 42, 0); }
+  }
+  #musicBtn {
+    position: fixed; bottom: 20px; right: 20px; z-index: 10000;
+    width: 45px; height: 45px; border-radius: 50%;
+    border: 1px solid #b8892a; background: rgba(255, 255, 255, 0.9);
+    color: #b8892a; cursor: pointer; font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3); transition: all 0.3s;
+    animation: pulse 2s infinite;
+  }
+</style>
+</head>
+<body>
+
+<!-- شاشة الظرف التفاعلية -->
+<div id="intro">
+  <div class="intro-inner" id="envelopeContainer">
+    <div id="envelope">✉️</div>
+    <p style="margin-top: 20px; font-size: 1.5rem;">اضغط لفتح الدعوة</p>
+  </div>
+</div>
+
+<!-- ملف الصوت -->
+<audio id="bgMusic" loop><source src="song.mp3" type="audio/mpeg"></audio>
+<button id="musicBtn">🎵</button>
+
+<script>
+  const intro = document.getElementById('intro');
+  const envelope = document.getElementById('envelope');
+  const music = document.getElementById('bgMusic');
+  const musicBtn = document.getElementById('musicBtn');
+
+  // دالة القصاصات
+  function createConfetti() {
+    for (let i = 0; i < 50; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.backgroundColor = ['#f0d878', '#d4af5a', '#ffffff'][Math.floor(Math.random()*3)];
+      c.style.top = '-10px';
+      document.body.appendChild(c);
+      const animation = c.animate([{ transform: 'translateY(0) rotate(0deg)' }, { transform: `translateY(100vh) rotate(${Math.random()*720}deg)` }], { duration: 2000 + Math.random() * 2000, easing: 'linear' });
+      animation.onfinish = () => c.remove();
+    }
+  }
+
+  // التفاعل (فتح الظرف)
+  intro.addEventListener('click', () => {
+    envelope.style.transform = "scale(1.2) translateY(-20px)";
+    envelope.textContent = "📂";
+    createConfetti();
+    setTimeout(() => {
+        intro.classList.add('hide');
+        music.play().catch(e => console.log("تحتاج تفاعل المستخدم"));
+        alert("لقد تم تفعيل الموسيقى، نرجو التأكد من رفع مستوى صوت هاتفك!");
+    }, 600);
+  }, { once: true });
+
+  // التحكم بالموسيقى
+  musicBtn.addEventListener('click', () => {
+    if (music.paused) { music.play(); musicBtn.textContent = '🔊'; }
+    else { music.pause(); musicBtn.textContent = '🔇'; }
+  });
+</script>
+
+</body>
+</html>
