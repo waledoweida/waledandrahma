@@ -6,21 +6,10 @@
 <title>دعوة عقد قران | وليد & رحمة</title>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  body { 
-    margin: 0; padding: 0; 
-    background-image: url('1000572275.jpg'); 
-    background-size: cover; 
-    background-position: center; 
-    background-attachment: fixed; 
-    background-repeat: no-repeat; 
-    font-family: 'Amiri', serif;
-    animation: shimmer 4s infinite ease-in-out;
-  }
-  @keyframes shimmer {
-    0% { filter: brightness(100%) contrast(100%); }
-    50% { filter: brightness(110%) contrast(102%); }
-    100% { filter: brightness(100%) contrast(100%); }
-  }
+  body { margin: 0; padding: 0; background-color: #f5ead6; font-family: 'Amiri', serif; overflow: hidden; }
+  
+  /* ══ التصميم البرمجي (الستائر والثريا) ══ */
+  .hero-wrap { position: relative; width: 100vw; height: 100vh; background: linear-gradient(to bottom, #e8d4b0, #f5ead6); display: flex; align-items: center; justify-content: center; }
   
   /* ══ شاشة الظرف التفاعلية ══ */
   #intro { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.85); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity .9s; }
@@ -50,7 +39,10 @@
 </head>
 <body>
 
-<!-- شاشة الظرف التفاعلية -->
+<div class="hero-wrap">
+  <h1 style="color: #b8892a;">دعوة عقد قران وليد & رحمة</h1>
+</div>
+
 <div id="intro">
   <div class="intro-inner" id="envelopeContainer">
     <div id="envelope">✉️</div>
@@ -58,7 +50,6 @@
   </div>
 </div>
 
-<!-- ملف الصوت -->
 <audio id="bgMusic" loop><source src="song.mp3" type="audio/mpeg"></audio>
 <button id="musicBtn">🎵</button>
 
@@ -68,7 +59,6 @@
   const music = document.getElementById('bgMusic');
   const musicBtn = document.getElementById('musicBtn');
 
-  // دالة القصاصات
   function createConfetti() {
     for (let i = 0; i < 50; i++) {
       const c = document.createElement('div');
@@ -82,19 +72,16 @@
     }
   }
 
-  // التفاعل (فتح الظرف)
   intro.addEventListener('click', () => {
     envelope.style.transform = "scale(1.2) translateY(-20px)";
     envelope.textContent = "📂";
     createConfetti();
     setTimeout(() => {
         intro.classList.add('hide');
-        music.play().catch(e => console.log("تحتاج تفاعل المستخدم"));
-        alert("لقد تم تفعيل الموسيقى، نرجو التأكد من رفع مستوى صوت هاتفك!");
+        music.play().catch(e => console.log("تحتاج تفاعل"));
     }, 600);
   }, { once: true });
 
-  // التحكم بالموسيقى
   musicBtn.addEventListener('click', () => {
     if (music.paused) { music.play(); musicBtn.textContent = '🔊'; }
     else { music.pause(); musicBtn.textContent = '🔇'; }
